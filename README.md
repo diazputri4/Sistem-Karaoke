@@ -4,7 +4,7 @@ Program ini merupakan tugas besar dari mata kuliah Struktur Data dan Algoritma d
 
 Alur program pada aplikasi Wahana Agile seperti berikut : Pengunjung memasuki aplikasi untuk mendaftarkan data diri dan membeli tiket sesuai orang yang akan bermain di Wahana. Lalu operator menampilkan list wahana dan status operasionalnya sambil menanyakan paket tiket yang akan dibeli oleh pelanggan(bisa yang perorangan, couple, keluarga), 
 🪶FEATURES--
-
+![image](https://github.com/user-attachments/assets/1a6baa81-03d0-4e2a-a81e-669158f1d7e7)
 
 🔗DATA STRUCTURE--
 
