@@ -7,7 +7,7 @@ Alur program pada aplikasi Karaoke Lorem Ipsum Dolor Sit Amet seperti berikut : 
 
 
 🪶FEATURES--
-![image](https://github.com/user-attachments/assets/1a6baa81-03d0-4e2a-a81e-669158f1d7e7)
+![WhatsApp Image 2025-05-17 at 22 11 34_8ab21c33](https://github.com/user-attachments/assets/f12562fd-9cca-4436-a203-7a4b9dc8f954)
 
 🔗DATA STRUCTURE--
 
