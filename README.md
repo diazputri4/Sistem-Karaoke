@@ -12,6 +12,10 @@ Alur program pada aplikasi Karaoke Lorem Ipsum Dolor Sit Amet seperti berikut : 
 🔗DATA STRUCTURE--
 
 
+![image](https://github.com/user-attachments/assets/b131c2fc-5c1a-42b1-9bf4-9d097ed22873)
+
+
+
 ⚙️BUILT WITH --
 [*]  Copilot
 [*]  Deepseek
