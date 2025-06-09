@@ -5,6 +5,6 @@
 
 void tampilan_logo_menu();
 void tampilan_antrian();
-void print_menu();
+void tampilan_history();
 
 #endif
