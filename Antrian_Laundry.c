@@ -1,6 +1,5 @@
 #include "Antrian_Laundry.h"
 
-// Konstanta untuk paket
 const char* nama_paket[] = {
     "Reguler Wash (1 hari)",
     "Premium Wash (6 jam)",
@@ -110,7 +109,6 @@ void input_data(antrian_laundry ** hasil) {
     *hasil = new;
 }
 
-// Tambahkan deklarasi 4 antrian terpisah
 antrian_laundry *antrian_reguler = NULL;
 antrian_laundry *antrian_premium = NULL;
 antrian_laundry *antrian_repairment = NULL;
@@ -183,7 +181,6 @@ void dequeue(antrian_laundry ** del) {
     free(temp);
 }
 
-// Tambahkan fungsi helper untuk menampilkan antrian berdasarkan kategori
 void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) {
     printf("\n=== Antrian %s ===\n", kategori);
     if (isEmpty(antrian)) {
@@ -209,7 +206,6 @@ void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) 
     }
 }
 
-// Modifikasi fungsi display_antrian untuk menggunakan fungsi helper
 void display_antrian(antrian_laundry ** awal, antrian_laundry * display) {
     tampilan_antrian();
     
