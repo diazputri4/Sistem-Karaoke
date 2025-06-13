@@ -10,7 +10,6 @@ void tampilkanMenu() {
     printf("||		{4}. Keluar                                   ||\n");
     printf("\n||============================================================||\n");
     printf("||Pilih menu (1-4):");
-
 }
 
 int main() {
@@ -52,9 +51,9 @@ int main() {
             default:
                 printf("\nPilihan tidak valid!\n");
                 printf("Tekan Enter untuk melanjutkan...");
-                getch();
+                getchar();
         }
     } while (pilihan != 5);
     
     return 0;
-} 
+}
