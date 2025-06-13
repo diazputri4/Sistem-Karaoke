@@ -1,4 +1,4 @@
-#include <stdio.h>Add commentMore actions
+#include <stdio.h>
 #include <stdlib.h>
 #include "laundry_system.h"
 
