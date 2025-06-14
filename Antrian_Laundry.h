@@ -2,6 +2,7 @@
 #define ANTRIAN_LAUNDRY_H
 
 #include "Tampilan.h"
+#include "Helper.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +20,7 @@ typedef struct node {
     char nama_pelanggan[30];
     char no_telp[14];
     char alamat[50];
-    int id;
+    char id[9];  // 8 karakter + null terminator
     Jenis_Paket paket;
     time_t waktu_pesan;
     time_t waktu_selesai;
