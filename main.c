@@ -1,53 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "laundry_system.h"
-
-void tampilkanMenu() {
-    printf("\n||================== MENU SISTEM LAUNDRY =====================||\n");
-    printf("||		{1}. Buat Pesanan Baru                        ||\n");
-    printf("||		{2}. Detail Status Pesanan                    ||\n");
-    printf("||		{3}. Histori                                  ||\n");
-    printf("||		{4}. Keluar                                   ||\n");
-    printf("\n||============================================================||\n");
-    printf("||Pilih menu (1-4):");
-}
+#include "Antrian_Laundry.h"
+#include "tampilan_struk.h"
+#include "Tampilan.h"
+#include "History.h"
 
 int main() {
-    Queue q_wash, q_repair, q_repaint;
-    init_queue(&q_wash);
-    init_queue(&q_repair);
-    init_queue(&q_repaint);
-    
     int pilihan;
-    do {
+    
+    do {\
+        load_from_file(&history_head);
         system("cls");
-        printf("\n=== SISTEM LAUNDRY SEPATU ===\n");
-        printf("1. Buat Pesanan\n");
-        printf("2. List Antrian\n");
-        printf("3. Detail Status Pesanan\n");
-        printf("4. Riwayat Pesanan Hari Ini\n");
-        printf("5. Keluar\n");
-        printf("Pilihan: ");
+        tampilan_logo_menu();
+        tampilkan_menu();
         scanf("%d", &pilihan);
         getchar();
         
         switch (pilihan) {
             case 1:
-                buat_pesanan(&q_wash, &q_repair, &q_repaint);
+                enqueue();
+                if (global_pesanan_baru != NULL) {
+                    save_history(&history_head, global_pesanan_baru);
+                    tampilkan_struk_pembayaran(global_pesanan_baru);
+                }
+                printf("\nTekan Enter untuk kembali ke menu utama...");
+                getchar();
                 break;
+                
             case 2:
-                list_antrian(&q_wash, &q_repair, &q_repaint);
+                display_antrian();
+                printf("\nTekan Enter untuk kembali ke menu utama...");
+                getchar();
                 break;
+                
             case 3:
-                detail_status_pesanan(&q_wash, &q_repair, &q_repaint);
                 break;
+                
             case 4:
-                riwayat_pesanan_hari_ini();
+                load_from_file(&history_head);
+                display_history(history_head);
                 break;
+                
             case 5:
                 system("cls");
                 printf("\nTerima kasih telah menggunakan sistem laundry kami!\n");
+                save_to_file(history_head);
+                free_history(&history_head);
+                dealokasi_antrian();
                 break;
+                
             default:
                 printf("\nPilihan tidak valid!\n");
                 printf("Tekan Enter untuk melanjutkan...");

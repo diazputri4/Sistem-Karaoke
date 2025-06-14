@@ -1,5 +1,6 @@
 #include "Antrian_Laundry.h"
-
+#include "History.h"
+// Konstanta untuk paket
 const char* nama_paket[] = {
     "Reguler Wash (1 hari)",
     "Premium Wash (6 jam)",
@@ -13,8 +14,6 @@ const int durasi_paket[] = {
     172800, // 2 hari dalam detik
     259200  // 3 hari dalam detik
 };
-
-int id_pesanan_berikutnya = 1;
 
 int isEmpty(antrian_laundry * cek) {
     if (cek != NULL) {
@@ -35,15 +34,29 @@ void clean_stdin(char * buffer) {
     }
 }
 
-int validasi_no_telp(const char * nomor) {
-    size_t i = 0;
-    while (i < strlen(nomor)) {
-        if(!isDigit(nomor[i])) {
-            return 0; // Tidak valid jika ada karakter non-digit
+int validasi_nomor_hp(char* no_hp) {
+    int len = strlen(no_hp);
+    
+    // Cek panjang nomor (11-13 digit)
+    if (len < 11 || len > 13) {
+        return 0;
+    }
+    
+    // Cek apakah diawali dengan "08"
+    if (no_hp[0] != '0' || no_hp[1] != '8') {
+        return 0;
+    }
+    
+    // Cek apakah semua karakter adalah digit
+    int i = 0;
+    while (i < len) {
+        if (no_hp[i] < '0' || no_hp[i] > '9') {
+            return 0;
         }
         i++;
     }
-    return 1; // Valid jika hanya berisi digit
+    
+    return 1;
 }
 
 void input_data(antrian_laundry ** hasil) {
@@ -67,11 +80,12 @@ void input_data(antrian_laundry ** hasil) {
         printf("Nomor telepon: ");
         fgets(buffer, sizeof(buffer), stdin);
         clean_stdin(buffer);
-        if (validasi_no_telp(buffer)) {
-            new->no_telp = atoi(buffer);
+        if (validasi_nomor_hp(buffer)) {
+            strncpy(new->no_telp, buffer, sizeof(new->no_telp) - 1);
+            new->no_telp[sizeof(new->no_telp) - 1] = '\0';
             valid = 1;
         } else {
-            printf("Nomor telepon tidak valid. Silakan coba lagi.\n");
+            printf("Nomor telepon tidak valid. Harus diawali dengan '08' dan panjang 11-13 digit.\n");
         }
     }
 
@@ -101,7 +115,8 @@ void input_data(antrian_laundry ** hasil) {
     }
     
     new->paket = pilihan_paket - 1;
-    new->id = id_pesanan_berikutnya++;
+    // Menggunakan ID terakhir dari history + 1
+    new->id = get_last_id() + 1;
     new->waktu_pesan = time(NULL);
     new->waktu_selesai = new->waktu_pesan + durasi_paket[new->paket];
     new->sudah_selesai = false;
@@ -109,18 +124,21 @@ void input_data(antrian_laundry ** hasil) {
     *hasil = new;
 }
 
+// Tambahkan deklarasi 5 antrian terpisah
 antrian_laundry *antrian_reguler = NULL;
 antrian_laundry *antrian_premium = NULL;
 antrian_laundry *antrian_repairment = NULL;
 antrian_laundry *antrian_repaint = NULL;
+antrian_laundry *global_pesanan_baru = NULL;
 
-void enqueue(antrian_laundry **in) {
+void enqueue() {
     antrian_laundry *newantrian = NULL;
     input_data(&newantrian);
     if (newantrian == NULL) {
         return;
     }
-
+    
+    global_pesanan_baru = newantrian;
     // Menambahkan ke antrian yang sesuai berdasarkan paket
     switch (newantrian->paket) {
         case REGULER:
@@ -181,6 +199,7 @@ void dequeue(antrian_laundry ** del) {
     free(temp);
 }
 
+// Tambahkan fungsi helper untuk menampilkan antrian berdasarkan kategori
 void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) {
     printf("\n=== Antrian %s ===\n", kategori);
     if (isEmpty(antrian)) {
@@ -192,7 +211,7 @@ void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) 
     int count = 1;
     printf("\n=========================================================================");
     while (current != NULL) {
-        printf("\n%d. %s - %d - %s", count, current->nama_pelanggan, current->no_telp, current->alamat);
+        printf("\n%d. %s - %s - %s", count, current->nama_pelanggan, current->no_telp, current->alamat);
         printf("\n   Paket: %s", nama_paket[current->paket]);
         printf("\n   Waktu pemesanan: ");
         tampilkan_waktu(current->waktu_pesan);
@@ -206,7 +225,8 @@ void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) 
     }
 }
 
-void display_antrian(antrian_laundry ** awal, antrian_laundry * display) {
+// Modifikasi fungsi display_antrian untuk menggunakan fungsi helper
+void display_antrian() {
     tampilan_antrian();
     
     // Tampilkan semua antrian menggunakan fungsi helper
@@ -232,7 +252,8 @@ void cari_antrian(antrian_laundry ** awal, antrian_laundry * display) {
 
     while (current != NULL) {
         if (strcmp(current->nama_pelanggan, nama) == 0) {
-            printf("\nPelanggan ditemukan: %s - %d - %s\n", current->nama_pelanggan, current->no_telp, current->alamat);
+            printf("\nPelanggan ditemukan: %s - %s - %s\n", 
+                   current->nama_pelanggan, current->no_telp, current->alamat);
             found = 1;
             break;
         }
@@ -293,95 +314,50 @@ void perbarui_status_pesanan(antrian_laundry ** awal) {
     }
 }
 
-/*
-void periksa_status_pesanan(antrian_laundry ** awal) {
-    int id_pesanan;
-    printf("\nMasukkan ID Pesanan yang ingin diperiksa: ");
-    scanf("%d", &id_pesanan);
-    getchar();
-    
-    // Cari di semua antrian
-    antrian_laundry * current;
-    bool ditemukan = false;
-    
-    // Cek antrian reguler
+// Fungsi untuk dealokasi memori antrian
+void dealokasi_antrian() {
+    antrian_laundry* current;
+    antrian_laundry* temp;
+
+    // Dealokasi antrian reguler
     current = antrian_reguler;
     while (current != NULL) {
-        if (current->id == id_pesanan) {
-            ditemukan = true;
-            break;
-        }
+        temp = current;
         current = current->nextnode;
+        free(temp);
     }
-    
-    // Cek antrian premium
-    if (!ditemukan) {
-        current = antrian_premium;
-        while (current != NULL) {
-            if (current->id == id_pesanan) {
-                ditemukan = true;
-                break;
-            }
-            current = current->nextnode;
-        }
-    }
-    
-    // Cek antrian repairment
-    if (!ditemukan) {
-        current = antrian_repairment;
-        while (current != NULL) {
-            if (current->id == id_pesanan) {
-                ditemukan = true;
-                break;
-            }
-            current = current->nextnode;
-        }
-    }
-    
-    // Cek antrian repaint
-    if (!ditemukan) {
-        current = antrian_repaint;
-        while (current != NULL) {
-            if (current->id == id_pesanan) {
-                ditemukan = true;
-                break;
-            }
-            current = current->nextnode;
-        }
-    }
-    
-    if (ditemukan) {
-        printf("\n=== Status Pesanan #%d ===\n", current->id);
-        printf("Pelanggan: %s\n", current->nama_pelanggan);
-        printf("No. Telp: %d\n", current->no_telp);
-        printf("Alamat: %s\n", current->alamat);
-        printf("Paket: %s\n", nama_paket[current->paket]);
-        printf("Waktu pemesanan: ");
-        tampilkan_waktu(current->waktu_pesan);
-        printf("\nEstimasi selesai: ");
-        tampilkan_waktu(current->waktu_selesai);
-        
-        if (current->sudah_selesai) {
-            printf("\nStatus: SELESAI\n");
-            dequeue(&current);
-        } else if (time(NULL) >= current->waktu_selesai) {
-            printf("\nStatus: MENUNGGU PENGAMBILAN\n");
-            printf("Pesanan sudah selesai dan menunggu diambil.\n");
-        } else {
-            time_t sisa_waktu = current->waktu_selesai - time(NULL);
-            int jam = sisa_waktu / 3600;
-            int menit = (sisa_waktu % 3600) / 60;
-            
-            printf("\nStatus: DALAM PROSES\n");
-            printf("Estimasi waktu tersisa: %d jam %d menit\n", jam, menit);
-        }
-    } else {
-        printf("Pesanan dengan ID #%d tidak ditemukan.\n", id_pesanan);
-    }
-}
-*/
+    antrian_reguler = NULL;
 
-// Fungsi kosong sebagai placeholder
-void periksa_status_pesanan(antrian_laundry ** awal) {
-    // Fungsi akan diimplementasikan oleh teman
+    // Dealokasi antrian premium
+    current = antrian_premium;
+    while (current != NULL) {
+        temp = current;
+        current = current->nextnode;
+        free(temp);
+    }
+    antrian_premium = NULL;
+
+    // Dealokasi antrian repairment
+    current = antrian_repairment;
+    while (current != NULL) {
+        temp = current;
+        current = current->nextnode;
+        free(temp);
+    }
+    antrian_repairment = NULL;
+
+    // Dealokasi antrian repaint
+    current = antrian_repaint;
+    while (current != NULL) {
+        temp = current;
+        current = current->nextnode;
+        free(temp);
+    }
+    antrian_repaint = NULL;
+
+    // Dealokasi global pesanan baru jika masih ada
+    if (global_pesanan_baru != NULL) {
+        free(global_pesanan_baru);
+        global_pesanan_baru = NULL;
+    }
 }

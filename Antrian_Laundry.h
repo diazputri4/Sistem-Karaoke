@@ -17,7 +17,7 @@ typedef enum {
 
 typedef struct node {
     char nama_pelanggan[30];
-    int no_telp;
+    char no_telp[14];
     char alamat[50];
     int id;
     Jenis_Paket paket;
@@ -27,18 +27,26 @@ typedef struct node {
     struct node * nextnode;
 } antrian_laundry;
 
+extern const char* nama_paket[];
+extern antrian_laundry *antrian_reguler;
+extern antrian_laundry *antrian_premium;
+extern antrian_laundry *antrian_repairment;
+extern antrian_laundry *antrian_repaint;
+extern antrian_laundry *global_pesanan_baru;
+
+int validasi_nomor_hp(char* no_hp);
 int isEmpty(antrian_laundry * cek);
 void clean_stdin(char * buffer);
-int validasi_no_telp(const char * nomor);
 void input_data(antrian_laundry ** hasil);
 int isDigit(char c);
-void enqueue(antrian_laundry ** in);
+void enqueue();
 void dequeue(antrian_laundry ** del);
-void display_antrian(antrian_laundry ** awal, antrian_laundry * display);
+void display_antrian();
 void cari_antrian(antrian_laundry ** awal, antrian_laundry * display);
 void tampilkan_waktu(time_t waktu);
 void perbarui_status_pesanan(antrian_laundry ** awal);
 void periksa_status_pesanan(antrian_laundry ** awal);
 void tampilkan_menu();
+void dealokasi_antrian();
 
 #endif
