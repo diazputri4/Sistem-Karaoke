@@ -380,8 +380,3 @@ void periksa_status_pesanan(antrian_laundry ** awal) {
     }
 }
 */
-
-// Fungsi kosong sebagai placeholder
-void periksa_status_pesanan(antrian_laundry ** awal) {
-    // Fungsi akan diimplementasikan oleh teman
-}
