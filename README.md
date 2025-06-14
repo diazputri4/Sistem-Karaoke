@@ -16,11 +16,11 @@ Sistem ini terinspirasi dari sebuah tempat laundry di Sarijadi dan aplikasi seru
 - Diaz Putri Izzatunnisa (241524008)  
 - Wahyu Dwi Lestari (241524029)
 
-## Fitur Utama
+## Alur
 
 ![WhatsApp Image 2025-05-17 at 22 11 34_8ab21c33](https://github.com/user-attachments/assets/f12562fd-9cca-4436-a203-7a4b9dc8f954)
 
-## Struktur Data
+## Struktur Data & Ruang Linkup Proyek
 
 ![image](https://github.com/user-attachments/assets/b131c2fc-5c1a-42b1-9bf4-9d097ed22873)
 
