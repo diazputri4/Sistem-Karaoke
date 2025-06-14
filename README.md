@@ -1,7 +1,7 @@
 # Laundry Lorem Ipsum Dolor Sit Amet
 
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2Bplus%2Bplus&logoColor=white)
-![Data Structures](https://img.shields.io/badge/Data%20Structures-Queue%20%7C%20Stack-blue?style=for-the-badge)
+![C++](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c%2Bplus%2Bplus&logoColor=white)
+![Data Structures](https://img.shields.io/badge/Data%20Structures-Queue%20%7C%20List-blue?style=for-the-badge)
 
 ## Deskripsi Proyek
 
