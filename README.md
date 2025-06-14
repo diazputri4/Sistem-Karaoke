@@ -1,29 +1,36 @@
 # Laundry Lorem Ipsum Dolor Sit Amet
 
-Program ini merupakan tugas besar dari mata kuliah Struktur Data dan Algoritma dari kelompok 4. Kelompok 4 yang beranggotakan : Amalia Khoerina (241524003), Diaz Putri Izzatunnisa (241524008), Wahyu Dwi Lestari (241524029). Program Karaoke Lorem Ipsum Dolor Sit Amet ini adalah program yang dibuat dengan tujuan untuk mendata proses antrian pendatang/pengunjung dari sudut pandang oparator kasir di sebuah tempat Laundry (tidak multi-cabang). Kami mengambil contoh dari Sebuah Tempat Laundry di Sarijadi dan dari aplikasi di play store. Mulai dari pemilihan layanan (Exspress, Regular, ), Operasi Penghitungan berat pakaian (sesuai jenis juga) , Hingga lihat data riwayat pesanan. Adapun pilihan jenis layanan yang ditawarkan yaitu Exspress, Tempat(regular) dimana perbedaannya ada di diantar ke tempat/ di jemput dan diantar oleh pihak laundry.
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2Bplus%2Bplus&logoColor=white)
+![Data Structures](https://img.shields.io/badge/Data%20Structures-Queue%20%7C%20Stack-blue?style=for-the-badge)
 
-Alur program pada aplikasi Laundry Lorem Ipsum Dolor Sit Amet seperti berikut : Ketika pengunjung datang ke tempat/sudah ada di appnya, operator/ kasir/ resepsionis memasuki aplikasi untuk mengecek laundry yang harus dikerjakan; lalu mendaftarkan data pengunjung dengan menanyakan jumlah, jenis layanan, lama layanan, dan lain- lain; setelah memasukkan data tersebut, data akan masuk ke queue sesuai prioritas, dan akan clock put dri queue ketika sudah selesai di cuci/diantarkan kembali.
+## Deskripsi Proyek
 
+Program ini merupakan tugas besar dari mata kuliah Struktur Data dan Algoritma dari kelompok 4. Program Laundry Lorem Ipsum Dolor Sit Amet adalah sistem manajemen laundry yang dibuat dengan tujuan untuk mendata proses antrian pendatang/pengunjung dari sudut pandang operator kasir di sebuah tempat laundry (tidak multi-cabang).
 
+Sistem ini terinspirasi dari sebuah tempat laundry di Sarijadi dan aplikasi serupa di Play Store, yang mencakup berbagai fitur mulai dari pemilihan layanan, operasi penghitungan berat pakaian berdasarkan jenis, hingga melihat data riwayat pesanan.
 
-🪶FEATURES--
+## Tim Pengembang
+
+**Kelompok 4:**
+- Amalia Khoerina (241524003)
+- Diaz Putri Izzatunnisa (241524008)  
+- Wahyu Dwi Lestari (241524029)
+
+## Fitur Utama
+
 ![WhatsApp Image 2025-05-17 at 22 11 34_8ab21c33](https://github.com/user-attachments/assets/f12562fd-9cca-4436-a203-7a4b9dc8f954)
 
-🔗DATA STRUCTURE--
-
+## Struktur Data
 
 ![image](https://github.com/user-attachments/assets/b131c2fc-5c1a-42b1-9bf4-9d097ed22873)
 
+Sistem ini mengimplementasikan berbagai struktur data fundamental:
+- **Queue**: Untuk manajemen antrian pelanggan berdasarkan prioritas
+- **List**: Untuk penyimpanan (load & save) data riwayat
 
+## Referensi
+- Tempat Laundry sepatu sarijadi (sebagai studi kasus)
+- Dokumentasi struktur data dan algoritma
 
-⚙️BUILT WITH --
-[*]  Copilot
-[*]  Deepseek
-[*]  Visual Studio Code
-[*]  Dev C++
-[*]  C/C++ Language
-
-📑REFERENCE--
-Credits to :
--
--
+--
+*Proyek ini dibuat untuk keperluan akademik mata kuliah Struktur Data dan Algoritma.*
