@@ -29,7 +29,9 @@ Sistem ini mengimplementasikan berbagai struktur data fundamental:
 - **List**: Untuk penyimpanan (load & save) data riwayat
 
 ## Cara Untuk Melakukan Compile
-```bash gcc *.c *.h -o laundryapp```
+```bash
+gcc *.c *.h -o laundryapp
+```
 
 ## Referensi
 - Tempat Laundry sepatu sarijadi (sebagai studi kasus)
