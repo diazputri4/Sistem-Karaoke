@@ -28,6 +28,9 @@ Sistem ini mengimplementasikan berbagai struktur data fundamental:
 - **Queue**: Untuk manajemen antrian pelanggan berdasarkan prioritas
 - **List**: Untuk penyimpanan (load & save) data riwayat
 
+## Cara Untuk Melakukan Compile
+'''sh gcc *.c *.h -o laundryapp'''
+
 ## Referensi
 - Tempat Laundry sepatu sarijadi (sebagai studi kasus)
 - Dokumentasi struktur data dan algoritma
