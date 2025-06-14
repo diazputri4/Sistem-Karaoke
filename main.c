@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Antrian_Laundry.h"
-#include "tampilan_struk.h"
+#include "Pemesanan_Laundry.h"
 #include "Tampilan.h"
 #include "History.h"
 
 int main() {
     int pilihan;
     
-    do {\
+    do {
         load_from_file(&history_head);
         system("cls");
         tampilan_logo_menu();
@@ -20,8 +20,9 @@ int main() {
             case 1:
                 enqueue();
                 if (global_pesanan_baru != NULL) {
-                    save_history(&history_head, global_pesanan_baru);
-                    tampilkan_struk_pembayaran(global_pesanan_baru);
+                    order(global_pesanan_baru);
+                    tampilkan_struk_pembayaran(latest_order);
+                    save_history(&history_head, &latest_order);
                 }
                 printf("\nTekan Enter untuk kembali ke menu utama...");
                 getchar();

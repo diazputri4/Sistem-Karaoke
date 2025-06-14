@@ -1,8 +1,4 @@
 #include "History.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <conio.h>
 
 // Global variable definition
 history_node* history_head = NULL;
@@ -27,28 +23,10 @@ int count_history_entries(history_node* head) {
     return count;
 }
 
-// Fungsi untuk mendapatkan ID terakhir dari history
-int get_last_id() {
-    if (history_head == NULL) {
-        return 0;
-    }
-    
-    // Mencari ID tertinggi dalam history
-    int highest_id = 0;
-    history_node* current = history_head;
-    while (current != NULL) {
-        if (current->id > highest_id) {
-            highest_id = current->id;
-        }
-        current = current->next;
-    }
-    return highest_id;
-}
-
 // Menyimpan entri baru ke dalam riwayat
 // Menerima pointer ke head riwayat dan data pesanan yang akan disimpan
-void save_history(history_node** history_head, antrian_laundry* order) {
-    if (order == NULL) {
+void save_history(history_node** history_head, pesanan* order) {
+    if (order == NULL || order->datastruk == NULL) {
         printf("Error: Tidak ada data pesanan untuk disimpan\n");
         return;
     }
@@ -59,14 +37,8 @@ void save_history(history_node** history_head, antrian_laundry* order) {
         return;
     }
 
-    // Menyalin data dari struktur antrian_laundry ke history_node
-    new_node->id = order->id;
-    strncpy(new_node->nama_pelanggan, order->nama_pelanggan, sizeof(new_node->nama_pelanggan) - 1);
-    strncpy(new_node->no_telp, order->no_telp, sizeof(new_node->no_telp) - 1);
-    strncpy(new_node->alamat, order->alamat, sizeof(new_node->alamat) - 1);
-    new_node->paket = order->paket;
-    new_node->waktu_pesan = order->waktu_pesan;
-    new_node->waktu_selesai = order->waktu_selesai;
+    // Menyalin data pesanan ke node baru
+    new_node->data = *order;
     new_node->next = NULL;
 
     // Menambahkan node baru ke awal linked list
@@ -106,7 +78,7 @@ void display_history(history_node* history_head) {
     // Urutkan array berdasarkan ID secara descending
     for (int i = 0; i < total_entries - 1; i++) {
         for (int j = 0; j < total_entries - i - 1; j++) {
-            if (nodes[j]->id < nodes[j + 1]->id) {
+            if (strcmp(nodes[j]->data.datastruk->id, nodes[j + 1]->data.datastruk->id) < 0) {
                 history_node* temp = nodes[j];
                 nodes[j] = nodes[j + 1];
                 nodes[j + 1] = temp;
@@ -135,13 +107,26 @@ void display_history(history_node* history_head) {
         // Menampilkan entri untuk halaman saat ini
         for (int i = start_idx; i < end_idx; i++) {
             printf("\n=========================================================================");
-            printf("\n%d. ID: %d", i + 1, nodes[i]->id);
-            printf("\n   Nama: %s", nodes[i]->nama_pelanggan);
-            printf("\n   No. Telp: %s", nodes[i]->no_telp);
-            printf("\n   Alamat: %s", nodes[i]->alamat);
-            printf("\n   Paket: %s", nama_paket_history[nodes[i]->paket]);
-            printf("\n   Waktu Pesan: %s", ctime(&nodes[i]->waktu_pesan));
-            printf("   Waktu Selesai: %s", ctime(&nodes[i]->waktu_selesai));
+            printf("\n%d. ID: %s", i + 1, nodes[i]->data.datastruk->id);
+            printf("\n   Nama: %s", nodes[i]->data.datastruk->nama_pelanggan);
+            printf("\n   No. Telp: %s", nodes[i]->data.datastruk->no_telp);
+            printf("\n   Alamat: %s", nodes[i]->data.datastruk->alamat);
+            printf("\n   Paket: %s", nama_paket_history[nodes[i]->data.datastruk->paket]);
+            printf("\n   Metode Pembayaran: ");
+            switch (nodes[i]->data.metode - 1) {
+                case TUNAI:
+                    printf("Tunai");
+                    break;
+                case TRANSFER:
+                    printf("Transfer Bank");
+                    break;
+                case EWALLET:
+                    printf("E-Wallet");
+                    break;
+            }
+            printf("\n   Total Pembayaran: Rp %d", nodes[i]->data.harga);
+            printf("\n   Waktu Pesan: %s", ctime(&nodes[i]->data.datastruk->waktu_pesan));
+            printf("   Waktu Selesai: %s", ctime(&nodes[i]->data.datastruk->waktu_selesai));
             printf("\n=========================================================================\n");
         }
 
@@ -197,6 +182,7 @@ void free_history(history_node** history_head) {
     while (current != NULL) {
         history_node* temp = current;
         current = current->next;
+        // Tidak perlu membebaskan datastruk karena itu adalah pointer ke node yang sudah ada
         free(temp);
     }
     *history_head = NULL;
@@ -213,7 +199,19 @@ void save_to_file(history_node* history_head) {
 
     history_node* current = history_head;
     while (current != NULL) {
-        fwrite(current, sizeof(history_node), 1, file);
+        // Simpan data pesanan
+        fwrite(&current->data.metode, sizeof(metode_pembayaran), 1, file);
+        fwrite(&current->data.harga, sizeof(int), 1, file);
+        
+        // Simpan data antrian_laundry
+        fwrite(current->data.datastruk->id, sizeof(char), 8, file);
+        fwrite(current->data.datastruk->nama_pelanggan, sizeof(char), 50, file);
+        fwrite(current->data.datastruk->no_telp, sizeof(char), 15, file);
+        fwrite(current->data.datastruk->alamat, sizeof(char), 100, file);
+        fwrite(&current->data.datastruk->paket, sizeof(int), 1, file);
+        fwrite(&current->data.datastruk->waktu_pesan, sizeof(time_t), 1, file);
+        fwrite(&current->data.datastruk->waktu_selesai, sizeof(time_t), 1, file);
+        
         current = current->next;
     }
 
@@ -232,11 +230,8 @@ void load_from_file(history_node** history_head) {
     // Membersihkan riwayat yang ada
     free_history(history_head);
 
-    history_node* current = NULL;
-    history_node temp;
-
-    // Membaca data dari file dan membuat node baru untuk setiap entri
-    while (fread(&temp, sizeof(history_node), 1, file) == 1) {
+    while (1) {
+        // Alokasi node baru untuk history
         history_node* new_node = (history_node*)malloc(sizeof(history_node));
         if (new_node == NULL) {
             printf("Error: Alokasi memori gagal\n");
@@ -244,11 +239,69 @@ void load_from_file(history_node** history_head) {
             return;
         }
 
-        // Menyalin data dari temp ke node baru
-        memcpy(new_node, &temp, sizeof(history_node));
+        // Alokasi node baru untuk antrian_laundry
+        antrian_laundry* new_antrian = (antrian_laundry*)malloc(sizeof(antrian_laundry));
+        if (new_antrian == NULL) {
+            printf("Error: Alokasi memori gagal\n");
+            free(new_node);
+            fclose(file);
+            return;
+        }
+
+        // Baca data pesanan
+        if (fread(&new_node->data.metode, sizeof(metode_pembayaran), 1, file) != 1) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(&new_node->data.harga, sizeof(int), 1, file) != 1) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+
+        // Baca data antrian_laundry
+        if (fread(new_antrian->id, sizeof(char), 8, file) != 8) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(new_antrian->nama_pelanggan, sizeof(char), 50, file) != 50) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(new_antrian->no_telp, sizeof(char), 15, file) != 15) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(new_antrian->alamat, sizeof(char), 100, file) != 100) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(&new_antrian->paket, sizeof(int), 1, file) != 1) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(&new_antrian->waktu_pesan, sizeof(time_t), 1, file) != 1) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+        if (fread(&new_antrian->waktu_selesai, sizeof(time_t), 1, file) != 1) {
+            free(new_antrian);
+            free(new_node);
+            break;
+        }
+
+        // Set pointer datastruk
+        new_node->data.datastruk = new_antrian;
         new_node->next = NULL;
 
-        // Menambahkan ke awal linked list
+        // Tambahkan ke linked list
         if (*history_head == NULL) {
             *history_head = new_node;
         } else {

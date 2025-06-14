@@ -1,6 +1,5 @@
 #include "Antrian_Laundry.h"
-#include "History.h"
-// Konstanta untuk paket
+
 const char* nama_paket[] = {
     "Reguler Wash (1 hari)",
     "Premium Wash (6 jam)",
@@ -96,13 +95,13 @@ void input_data(antrian_laundry ** hasil) {
     new->alamat[sizeof(new->alamat) - 1] = '\0'; // Pastikan null-terminated
 
     // Tambahan untuk paket
-    printf("\nPilih paket laundry:\n");
-    printf("1. Reguler Wash (1 hari)\n");
-    printf("2. Premium Wash (6 jam)\n");
-    printf("3. Repairment (2 hari)\n");
-    printf("4. Repaint (3 hari)\n");
+    printf("\n||================== MENU LAYANAN =====================||\n");
+    printf("||1. Regular Wash                                    ||\n");
+    printf("||2. Premium Wash                                    ||\n");
+    printf("||3. Repairment                                      ||\n");
+    printf("||4. Repaint                                         ||\n");
+    printf("||=======================================================||\n");
     printf("Pilihan: ");
-    
     int pilihan_paket;
     scanf("%d", &pilihan_paket);
     getchar();
@@ -115,8 +114,7 @@ void input_data(antrian_laundry ** hasil) {
     }
     
     new->paket = pilihan_paket - 1;
-    // Menggunakan ID terakhir dari history + 1
-    new->id = get_last_id() + 1;
+    generate_id(new->id);
     new->waktu_pesan = time(NULL);
     new->waktu_selesai = new->waktu_pesan + durasi_paket[new->paket];
     new->sudah_selesai = false;
@@ -234,35 +232,6 @@ void display_antrian() {
     tampilkan_antrian_kategori(antrian_premium, "Premium Wash");
     tampilkan_antrian_kategori(antrian_repairment, "Repairment");
     tampilkan_antrian_kategori(antrian_repaint, "Repaint");
-}
-
-void cari_antrian(antrian_laundry ** awal, antrian_laundry * display) {
-    if (isEmpty(display)) {
-        printf("Antrian kosong!\n");
-        return;
-    }
-
-    char nama[30];
-    printf("\nMasukkan nama pelanggan yang ingin dicari: ");
-    fgets(nama, sizeof(nama), stdin);
-    clean_stdin(nama);
-
-    antrian_laundry * current = display;
-    int found = 0;
-
-    while (current != NULL) {
-        if (strcmp(current->nama_pelanggan, nama) == 0) {
-            printf("\nPelanggan ditemukan: %s - %s - %s\n", 
-                   current->nama_pelanggan, current->no_telp, current->alamat);
-            found = 1;
-            break;
-        }
-        current = current->nextnode;
-    }
-
-    if (!found) {
-        printf("Pelanggan dengan nama '%s' tidak ditemukan dalam antrian.\n", nama);
-    }
 }
 
 // Fungsi-fungsi baru dari Queue_Sepatu
