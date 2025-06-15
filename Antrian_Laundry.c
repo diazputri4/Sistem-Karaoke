@@ -67,8 +67,8 @@ void input_data(antrian_laundry ** hasil) {
     }
 
     char buffer[100];
-
-    printf("Nama: ");
+    printf("\n=================== INPUT DATA ======================");
+    printf("\nNama: ");
     fgets(buffer, sizeof(buffer), stdin);
     clean_stdin(buffer);
     strncpy(new->nama_pelanggan, buffer, sizeof(new->nama_pelanggan) - 1);
@@ -96,11 +96,11 @@ void input_data(antrian_laundry ** hasil) {
 
     // Tambahan untuk paket
     printf("\n||================== MENU LAYANAN =====================||\n");
-    printf("||1. Regular Wash                                    ||\n");
-    printf("||2. Premium Wash                                    ||\n");
-    printf("||3. Repairment                                      ||\n");
-    printf("||4. Repaint                                         ||\n");
-    printf("||=======================================================||\n");
+    printf("||1. Regular Wash                                      ||\n");
+    printf("||2. Premium Wash                                      ||\n");
+    printf("||3. Repairment                                        ||\n");
+    printf("||4. Repaint                                           ||\n");
+    printf("||=====================================================||\n");
     printf("Pilihan: ");
     int pilihan_paket;
     scanf("%d", &pilihan_paket);
