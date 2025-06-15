@@ -1,17 +1,17 @@
-# Laundry Sepatu Lorem Ipsum Dolor Sit Amet
+# Laundry Lorem Ipsum Dolor Sit Amet
 
 ![C++](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c%2Bplus%2Bplus&logoColor=white)
 ![Data Structures](https://img.shields.io/badge/Data%20Structures-Queue%20%7C%20List-blue?style=for-the-badge)
 
 ## Deskripsi Proyek
 
-Program ini merupakan tugas besar dari mata kuliah Struktur Data dan Algoritma dari kelompok 4. Program Laundry Lorem Ipsum Dolor Sit Amet adalah sistem manajemen laundry yang dibuat dengan tujuan untuk mendata proses antrian pendatang/pengunjung dari sudut pandang operator kasir di sebuah tempat laundry sepatu(tidak multi-cabang).
+Program ini merupakan tugas besar dari mata kuliah Struktur Data dan Algoritma dari kelompok 4. Program Laundry Lorem Ipsum Dolor Sit Amet adalah sistem manajemen laundry yang dibuat dengan tujuan untuk mendata proses antrian pendatang/pengunjung dari sudut pandang operator kasir di sebuah tempat laundry (tidak multi-cabang).
 
-Sistem ini terinspirasi dari sebuah tempat laundry di Sarijadi, yang mencakup berbagai fitur mulai dari pemilihan layanan, operasi penghitungan total biaya berdasarkan jenis jasa dan jumlah sepatu yang diberikan, melihat status pesanan, hingga melihat data riwayat pesanan.
+Sistem ini terinspirasi dari sebuah tempat laundry di Sarijadi dan aplikasi serupa di Play Store, yang mencakup berbagai fitur mulai dari pemilihan layanan, operasi penghitungan berat pakaian berdasarkan jenis, hingga melihat data riwayat pesanan.
 
 ## Tim Pengembang
 
-**Kelompok 5:**
+**Kelompok 4:**
 - Amalia Khoerina (241524003)
 - Diaz Putri Izzatunnisa (241524008)  
 - Wahyu Dwi Lestari (241524029)

@@ -1,60 +1,10 @@
-#include "History.h"
-
-// Global variable definition
-history_node* history_head = NULL;
-
-// Array untuk nama paket
-const char* nama_paket_history[] = {
-    "Reguler Wash (1 hari)",
-    "Premium Wash (6 jam)",
-    "Repairment (2 hari)",
-    "Repaint (3 hari)"
-};
-
-// Fungsi pembantu untuk menghitung total entri dalam riwayat
-// Mengembalikan jumlah total node dalam linked list riwayat
-int count_history_entries(history_node* head) {
-    int count = 0;
-    history_node* current = head;
-    while (current != NULL) {
-        count++;
-        current = current->next;
-    }
-    return count;
-}
-
-// Menyimpan entri baru ke dalam riwayat
-// Menerima pointer ke head riwayat dan data pesanan yang akan disimpan
-void save_history(history_node** history_head, pesanan* order) {
-    if (order == NULL || order->datastruk == NULL) {
-        printf("Error: Tidak ada data pesanan untuk disimpan\n");
-        return;
-    }
-
-    history_node* new_node = (history_node*)malloc(sizeof(history_node));
-    if (new_node == NULL) {
-        printf("Error: Alokasi memori gagal\n");
-        return;
-    }
-
-    // Menyalin data pesanan ke node baru
-    new_node->data = *order;
-    new_node->next = NULL;
-
-    // Menambahkan node baru ke awal linked list
-    if (*history_head == NULL) {
-        *history_head = new_node;
-    } else {
-        new_node->next = *history_head;
-        *history_head = new_node;
-    }
-
-    // Menyimpan ke file setelah setiap penambahan entri baru
-    save_to_file(*history_head);
-}
-
-// Fungsi untuk menampilkan riwayat pesanan dengan sistem paginasi
-void display_history(history_node* history_head) {
+// Perbaikan 1: Ubah signature fungsi display_history
+void display_history(history_node** history_head_ptr) {
+    // Gunakan pointer ke pointer agar bisa mengubah global variable
+    check_and_run_auto_delete(history_head_ptr);
+    
+    history_node* history_head = *history_head_ptr; // Deref untuk akses data
+    
     if (history_head == NULL) {
         printf("\nTidak ada riwayat pesanan.\n");
         return;
@@ -176,139 +126,71 @@ void display_history(history_node* history_head) {
     }
 }
 
-// Membebaskan semua memori yang digunakan oleh linked list riwayat
-void free_history(history_node** history_head) {
-    history_node* current = *history_head;
-    while (current != NULL) {
-        history_node* temp = current;
-        current = current->next;
-        // Tidak perlu membebaskan datastruk karena itu adalah pointer ke node yang sudah ada
-        free(temp);
-    }
-    *history_head = NULL;
-}
+// Perbaikan 2: Ubah signature di header file (History.h)
+// void display_history(history_node** history_head_ptr);
 
-// Menyimpan seluruh riwayat ke dalam file biner
-// File akan berisi semua data riwayat dalam format biner
-void save_to_file(history_node* history_head) {
-    FILE* file = fopen("data/history.dat", "wb");
-    if (file == NULL) {
-        printf("Error: Tidak dapat membuka file untuk penulisan\n");
-        return;
-    }
+// Perbaikan 3: Panggil fungsi dengan pointer ke global variable
+// Contoh dalam main.c atau file lain:
+// display_history(&history_head);
 
-    history_node* current = history_head;
-    while (current != NULL) {
-        // Simpan data pesanan
-        fwrite(&current->data.metode, sizeof(metode_pembayaran), 1, file);
-        fwrite(&current->data.harga, sizeof(int), 1, file);
+// Perbaikan 4: Tambahkan fungsi debug untuk testing
+void debug_auto_delete() {
+    printf("=== DEBUG AUTO DELETE ===\n");
+    
+    time_t current_time = time(NULL);
+    time_t cutoff_time = current_time - (7 * 24 * 60 * 60);
+    
+    printf("Waktu sekarang: %s", ctime(&current_time));
+    printf("Cutoff time (7 hari lalu): %s", ctime(&cutoff_time));
+    
+    // Cek file last_cleanup.dat
+    FILE* file = fopen("data/last_cleanup.dat", "rb");
+    if (file != NULL) {
+        time_t last_cleanup;
+        fread(&last_cleanup, sizeof(time_t), 1, file);
+        fclose(file);
+        printf("Last cleanup: %s", ctime(&last_cleanup));
         
-        // Simpan data antrian_laundry
-        fwrite(current->data.datastruk->id, sizeof(char), 8, file);
-        fwrite(current->data.datastruk->nama_pelanggan, sizeof(char), 50, file);
-        fwrite(current->data.datastruk->no_telp, sizeof(char), 15, file);
-        fwrite(current->data.datastruk->alamat, sizeof(char), 100, file);
-        fwrite(&current->data.datastruk->paket, sizeof(int), 1, file);
-        fwrite(&current->data.datastruk->waktu_pesan, sizeof(time_t), 1, file);
-        fwrite(&current->data.datastruk->waktu_selesai, sizeof(time_t), 1, file);
-        
-        current = current->next;
-    }
-
-    fclose(file);
-}
-
-// Memuat riwayat dari file biner
-// Membaca data dari file dan membangun ulang linked list riwayat
-void load_from_file(history_node** history_head) {
-    FILE* file = fopen("data/history.dat", "rb");
-    if (file == NULL) {
-        printf("File riwayat tidak ditemukan. Memulai dengan riwayat kosong.\n");
-        return;
-    }
-
-    // Membersihkan riwayat yang ada
-    free_history(history_head);
-
-    while (1) {
-        // Alokasi node baru untuk history
-        history_node* new_node = (history_node*)malloc(sizeof(history_node));
-        if (new_node == NULL) {
-            printf("Error: Alokasi memori gagal\n");
-            fclose(file);
-            return;
-        }
-
-        // Alokasi node baru untuk antrian_laundry
-        antrian_laundry* new_antrian = (antrian_laundry*)malloc(sizeof(antrian_laundry));
-        if (new_antrian == NULL) {
-            printf("Error: Alokasi memori gagal\n");
-            free(new_node);
-            fclose(file);
-            return;
-        }
-
-        // Baca data pesanan
-        if (fread(&new_node->data.metode, sizeof(metode_pembayaran), 1, file) != 1) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(&new_node->data.harga, sizeof(int), 1, file) != 1) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-
-        // Baca data antrian_laundry
-        if (fread(new_antrian->id, sizeof(char), 8, file) != 8) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(new_antrian->nama_pelanggan, sizeof(char), 50, file) != 50) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(new_antrian->no_telp, sizeof(char), 15, file) != 15) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(new_antrian->alamat, sizeof(char), 100, file) != 100) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(&new_antrian->paket, sizeof(int), 1, file) != 1) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(&new_antrian->waktu_pesan, sizeof(time_t), 1, file) != 1) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-        if (fread(&new_antrian->waktu_selesai, sizeof(time_t), 1, file) != 1) {
-            free(new_antrian);
-            free(new_node);
-            break;
-        }
-
-        // Set pointer datastruk
-        new_node->data.datastruk = new_antrian;
-        new_node->next = NULL;
-
-        // Tambahkan ke linked list
-        if (*history_head == NULL) {
-            *history_head = new_node;
+        if (current_time >= last_cleanup) {
+            printf("Status: PERLU CLEANUP\n");
         } else {
-            new_node->next = *history_head;
-            *history_head = new_node;
+            printf("Status: BELUM PERLU CLEANUP\n");
         }
+    } else {
+        printf("File last_cleanup.dat tidak ditemukan\n");
     }
+    
+    // Cek history yang akan dihapus
+    history_node* current = history_head;
+    int count_to_delete = 0;
+    while (current != NULL) {
+        if (current->data.datastruk->waktu_pesan < cutoff_time) {
+            count_to_delete++;
+            printf("Data lama ditemukan - ID: %s, Waktu: %s", 
+                   current->data.datastruk->id, 
+                   ctime(&current->data.datastruk->waktu_pesan));
+        }
+        current = current->next;
+    }
+    
+    printf("Total data yang akan dihapus: %d\n", count_to_delete);
+    printf("=== END DEBUG ===\n");
+}
 
-    fclose(file);
+// Perbaikan 5: Force delete untuk testing
+void force_delete_old_history() {
+    printf("Force delete - menghapus data lebih dari 7 hari...\n");
+    auto_delete_old_history(&history_head);
+    printf("Force delete selesai.\n");
+}
+
+// Perbaikan 6: Reset cleanup timer untuk testing
+void reset_cleanup_timer() {
+    FILE* file = fopen("data/last_cleanup.dat", "wb");
+    if (file != NULL) {
+        time_t now = time(NULL) - 1; // Set ke 1 detik lalu agar cleanup langsung berjalan
+        fwrite(&now, sizeof(time_t), 1, file);
+        fclose(file);
+        printf("Cleanup timer telah direset.\n");
+    }
 }
