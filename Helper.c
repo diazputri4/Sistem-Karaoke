@@ -62,5 +62,5 @@ void generate_id(char* id) {
     int tahun = tm_now->tm_year - 100; // Mengambil 2 digit terakhir tahun
     
     // Format: XXDDMMYY
-    sprintf(id, "%02d%02d%02d%02d", nomor_antrian, tanggal, bulan, tahun);
+    printf(id, "%02d%02d%02d%02d", nomor_antrian, tanggal, bulan, tahun);
 }

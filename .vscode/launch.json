@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Polban/OneDrive - Politeknik Negeri Bandung/Documents/POLBAN/SEMESTER 2/SDA PRAKTEK/Laundry/Finish/Sistem-Laundry-Sepatu",
+      "program": "c:/Polban/OneDrive - Politeknik Negeri Bandung/Documents/POLBAN/SEMESTER 2/SDA PRAKTEK/Laundry/Finish/Sistem-Laundry-Sepatu/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
