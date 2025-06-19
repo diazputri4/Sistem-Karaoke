@@ -1,3 +1,6 @@
+// ===============================
+// ADT QUEUE (ANTRIAN LAUNDRY)
+// ===============================
 #ifndef ANTRIAN_LAUNDRY_H
 #define ANTRIAN_LAUNDRY_H
 
@@ -8,6 +11,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
+#include <windows.h>
 
 typedef enum {
     REGULER,
@@ -50,4 +54,16 @@ void periksa_status_pesanan(antrian_laundry ** awal);
 void tampilkan_menu();
 void dealokasi_antrian();
 
+// Fungsi untuk menyimpan dan memuat antrian
+void save_queue_to_file();
+void load_queue_from_file();
+
+// Fungsi untuk auto-dequeue pesanan yang sudah selesai
+void auto_dequeue_completed();
+
+void tampilkan_status_semua_pesanan();
+
+void edit_status_pengambilan();
+
 #endif
+
