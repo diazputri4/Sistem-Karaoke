@@ -11,3 +11,4 @@ void generate_id(char* id);
 int get_last_queue_number();
 
 #endif
+

@@ -23,3 +23,4 @@ waktu_operasional get_waktu_operasional();
 void tampilkan_status_toko();
 
 #endif
+

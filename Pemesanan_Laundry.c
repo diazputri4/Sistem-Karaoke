@@ -52,12 +52,13 @@ void tampilkan_struk_pembayaran(pesanan print) {
 
 // Fungsi untuk menampilkan katalog dan memproses pilihan Regular Wash
 int proses_regular_wash(char* nama_layanan, int* harga, int* estimasi) {
-    printf("\n>> REGULAR WASH\n");
-    printf("1. Deep Clean         - Rp 40.000 \n");
-    printf("2. Deep Clean Hard    - Rp 50.000 \n"); 
-    printf("3. Kids Shoes         - Rp 25.000 \n");
-    printf("4. Boots              - Rp 60.000 \n");
-    printf("5. Boots Hard         - Rp 70.000 \n");
+    printf("\n++==================================== REGULER WASH =====================================++\n");
+    printf("||                          1. Deep Clean         - Rp 40.000                            ||\n");
+    printf("||                          2. Deep Clean Hard    - Rp 50.000                            ||\n"); 
+    printf("||                          3. Kids Shoes         - Rp 25.000                            ||\n");
+    printf("||                          4. Boots              - Rp 60.000                            ||\n");
+    printf("||                          5. Boots Hard         - Rp 70.000                            ||\n");
+    printf("++=======================================================================================++\n\n");
     printf("Pilih layanan (1-5): ");
     
     int pilihan;
@@ -73,27 +74,27 @@ int proses_regular_wash(char* nama_layanan, int* harga, int* estimasi) {
         case 1:
             strcpy(nama_layanan, "Deep Clean");
             *harga = 40000;
-            *estimasi = 3;
+            *estimasi = 1; // 1 hari
             break;
         case 2:
             strcpy(nama_layanan, "Deep Clean Hard");
             *harga = 50000;
-            *estimasi = 4;
+            *estimasi = 1; // 1 hari
             break;
         case 3:
             strcpy(nama_layanan, "Kids Shoes");
             *harga = 25000;
-            *estimasi = 3;
+            *estimasi = 1; // 1 hari
             break;
         case 4:
             strcpy(nama_layanan, "Boots");
             *harga = 60000;
-            *estimasi = 3;
+            *estimasi = 1; // 1 hari
             break;
         case 5:
             strcpy(nama_layanan, "Boots Hard");
             *harga = 70000;
-            *estimasi = 4;
+            *estimasi = 1; // 1 hari
             break;
     }
     return 1;
@@ -101,12 +102,13 @@ int proses_regular_wash(char* nama_layanan, int* harga, int* estimasi) {
 
 // Fungsi untuk menampilkan katalog dan memproses pilihan Premium Wash
 int proses_premium_wash(char* nama_layanan, int* harga, int* estimasi) {
-    printf("\n>> PREMIUM WASH\n");
-    printf("1. Premium Clean      - Rp 55.000 \n");
-    printf("2. Premium Clean Hard - Rp 65.000 \n");
-    printf("3. One Day Service    - Rp 70.000 \n");
-    printf("4. One Day Service Hard - Rp 80.000\n");
-    printf("5. Premium Clean Boots - Rp 80.000 \n");
+    printf("\n++==================================== PREMIUM WASH =====================================++\n");
+    printf("||                         1. Premium Clean         - Rp 55.000                          ||\n");
+    printf("||                         2. Premium Clean Hard    - Rp 65.000                          ||\n");
+    printf("||                         3. One Day Service       - Rp 70.000                          ||\n");
+    printf("||                         4. One Day Service Hard  - Rp 80.000                          ||\n");
+    printf("||                         5. Premium Clean Boots   - Rp 80.000                          ||\n");
+    printf("++=======================================================================================++\n\n");
     printf("Pilih layanan (1-5): ");
     
     int pilihan;
@@ -122,27 +124,27 @@ int proses_premium_wash(char* nama_layanan, int* harga, int* estimasi) {
         case 1:
             strcpy(nama_layanan, "Premium Clean");
             *harga = 55000;
-            *estimasi = 1;
+            *estimasi = 0; // 6 jam (akan dikonversi di fungsi order)
             break;
         case 2:
             strcpy(nama_layanan, "Premium Clean Hard");
             *harga = 65000;
-            *estimasi = 1;
+            *estimasi = 0; // 6 jam (akan dikonversi di fungsi order)
             break;
         case 3:
             strcpy(nama_layanan, "One Day Service");
             *harga = 70000;
-            *estimasi = 1;
+            *estimasi = 0; // 6 jam (akan dikonversi di fungsi order)
             break;
         case 4:
             strcpy(nama_layanan, "One Day Service Hard");
             *harga = 80000;
-            *estimasi = 1;
+            *estimasi = 0; // 6 jam (akan dikonversi di fungsi order)
             break;
         case 5:
             strcpy(nama_layanan, "Premium Clean Boots");
             *harga = 80000;
-            *estimasi = 4;
+            *estimasi = 0; // 6 jam (akan dikonversi di fungsi order)
             break;
     }
     return 1;
@@ -150,10 +152,11 @@ int proses_premium_wash(char* nama_layanan, int* harga, int* estimasi) {
 
 // Fungsi untuk menampilkan katalog dan memproses pilihan Repairment
 int proses_repairment(char* nama_layanan, int* harga, int* estimasi) {
-    printf("\n>> REPAIRMENT (Include Wash)\n");
-    printf("1. Restitch           - Rp 85.000 \n");
-    printf("2. Reglue             - Rp 80.000 \n");
-    printf("3. Unyellowing        - Rp 80.000 \n");
+    printf("\n++============================== REPAIRMENT (Include Wash) ==============================++\n");
+    printf("||                          1. Restitch           - Rp 85.000                            ||\n");
+    printf("||                          2. Reglue             - Rp 80.000                            ||\n");
+    printf("||                          3. Unyellowing        - Rp 80.000                            ||\n");
+    printf("++=======================================================================================++\n\n");
     printf("Pilih layanan (1-3): ");
     
     int pilihan;
@@ -169,17 +172,17 @@ int proses_repairment(char* nama_layanan, int* harga, int* estimasi) {
         case 1:
             strcpy(nama_layanan, "Restitch");
             *harga = 85000;
-            *estimasi = 5;
+            *estimasi = 2; // 2 hari
             break;
         case 2:
             strcpy(nama_layanan, "Reglue");
             *harga = 80000;
-            *estimasi = 5;
+            *estimasi = 2; // 2 hari
             break;
         case 3:
             strcpy(nama_layanan, "Unyellowing");
             *harga = 80000;
-            *estimasi = 5;
+            *estimasi = 2; // 2 hari
             break;
     }
     return 1;
@@ -187,9 +190,10 @@ int proses_repairment(char* nama_layanan, int* harga, int* estimasi) {
 
 // Fungsi untuk menampilkan katalog dan memproses pilihan Repaint
 int proses_repaint(char* nama_layanan, int* harga, int* estimasi) {
-    printf("\n>> REPAINT (Include Wash)\n");
-    printf("1. Repaint Upper      - Rp 150.000 \n");
-    printf("2. Repaint Midsole    - Rp 125.000 \n");
+    printf("\n++=============================== REPAINT (Include Wash) ================================++\n");
+    printf("||                           1. Repaint Upper      - Rp 150.000                          ||\n");
+    printf("||                           2. Repaint Midsole    - Rp 125.000                          ||\n");
+    printf("++=======================================================================================++\n\n");
     printf("Pilih layanan (1-2): ");
     
     int pilihan;
@@ -205,12 +209,12 @@ int proses_repaint(char* nama_layanan, int* harga, int* estimasi) {
         case 1:
             strcpy(nama_layanan, "Repaint Upper");
             *harga = 150000;
-            *estimasi = 7;
+            *estimasi = 3; // 3 hari
             break;
         case 2:
             strcpy(nama_layanan, "Repaint Midsole");
             *harga = 125000;
-            *estimasi = 7;
+            *estimasi = 3; // 3 hari
             break;
     }
     return 1;
@@ -218,6 +222,7 @@ int proses_repaint(char* nama_layanan, int* harga, int* estimasi) {
 
 void order(antrian_laundry * neworder) {
     pesanan out;
+    memset(&out, 0, sizeof(pesanan)); // Initialize all fields to 0
     
     // Menu layanan sudah ditampilkan di input_data() dari Antrian_Laundry.c
     // Langsung menggunakan paket yang sudah dipilih
@@ -247,25 +252,43 @@ void order(antrian_laundry * neworder) {
         return; // Keluar jika pilihan tidak valid
     }
     
-    // Harga langsung tanpa perhitungan jumlah dan diskon
+    // Initialize all fields
     out.harga = harga;
+    out.jumlah = 1; // Default to 1
+    out.harga_satuan = harga;
+    out.subtotal = harga;
+    out.diskon = 0; // No discount by default
     
     // Simpan info layanan
-    strcpy(out.nama_layanan, nama_layanan);
+    strncpy(out.nama_layanan, nama_layanan, sizeof(out.nama_layanan) - 1);
+    out.nama_layanan[sizeof(out.nama_layanan) - 1] = '\0';
     
     // Hitung waktu selesai
     time_t waktu_sekarang = time(NULL);
-    neworder->waktu_selesai = waktu_sekarang + (estimasi * 24 * 60 * 60); // estimasi dalam detik
     
-    printf("\n=== RINGKASAN PESANAN ===\n");
+    // Khusus untuk layanan premium (estimasi = 0), gunakan 6 jam
+    if (estimasi == 0) {
+        neworder->waktu_selesai = waktu_sekarang + (6 * 60 * 60); // 6 jam dalam detik
+        out.estimasi_hari = 6; // Untuk display purposes
+    } else {
+        neworder->waktu_selesai = waktu_sekarang + (estimasi * 24 * 60 * 60); // estimasi dalam detik
+        out.estimasi_hari = estimasi;
+    }
+    
+    printf("\nRINGKASAN PESANAN:\n\n");
     printf("Layanan: %s\n", nama_layanan);
     printf("Harga: Rp %d\n", harga);
-    printf("Estimasi selesai: %d hari\n", estimasi);
+    if (estimasi == 6) {
+        printf("Estimasi selesai: 6 jam\n");
+    } else {
+        printf("Estimasi selesai: %d hari\n", estimasi);
+    }
     
-    printf("\nPilih metode pembayaran:\n");
-    printf("1. Tunai\n");
-    printf("2. Transfer Bank\n");
-    printf("3. E-Wallet\n");
+    printf("\n++================================= METODE PEMBAYARAN ===================================++\n");
+    printf("||                                   1. Tunai                                            ||\n");
+    printf("||                                   2. Transfer Bank                                    ||\n");
+    printf("||                                   3. E-Wallet                                        ||\n");
+    printf("++=======================================================================================++\n\n");
     printf("Pilihan: ");
     scanf("%d", &out.metode);
     getchar();
@@ -282,5 +305,5 @@ void order(antrian_laundry * neworder) {
     out.datastruk = neworder;
     latest_order = out;
     
-    printf("\n? Pesanan berhasil dibuat!\n");
+    printf("\nPESANAN BERHASIL DIBUAT!\n");
 }

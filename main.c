@@ -52,7 +52,7 @@ int main() {
                     system("cls");
                     display_antrian();
                 } else {
-                    printf("\nMaaf, toko sedang tutup. Silakan kembali pada jam operasional (09:00 - 18:00).\n");
+                    printf("\nMaaf, toko sedang tutup. Silakan kembali pada jam operasional (10:00 - 20:00).\n");
                 }
                 printf("\nTekan Enter untuk kembali ke menu utama...");
                 getchar();
@@ -61,13 +61,6 @@ int main() {
             case 3:
                 system("cls");
                 tampilkan_status_semua_pesanan();
-                printf("\nApakah ingin mengubah status pesanan dari 'Menunggu Pengambilan' ke 'Selesai' dan mengeluarkan dari antrian? (y/n): ");
-                char pilih;
-                scanf(" %c", &pilih);
-                getchar();
-                if (pilih == 'y' || pilih == 'Y') {
-                    edit_status_pengambilan();
-                }
                 break;
                 
             case 4:

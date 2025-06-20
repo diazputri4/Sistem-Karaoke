@@ -45,6 +45,7 @@ void clean_stdin(char * buffer);
 void input_data(antrian_laundry ** hasil);
 int isDigit(char c);
 void enqueue();
+void cek_status_pesanan_by_id();
 void dequeue(antrian_laundry ** del);
 void display_antrian();
 void cari_antrian(antrian_laundry ** awal, antrian_laundry * display);
@@ -62,8 +63,6 @@ void load_queue_from_file();
 void auto_dequeue_completed();
 
 void tampilkan_status_semua_pesanan();
-
-void edit_status_pengambilan();
 
 #endif
 

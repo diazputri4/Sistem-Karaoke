@@ -1,3 +1,6 @@
+// ===============================
+// ADT LINKED LIST (PESANAN/LAYANAN)
+// ===============================
 #ifndef PEMESANAN_LAUNDRY_H
 #define PEMESANAN_LAUNDRY_H
 #include "Antrian_Laundry.h"
@@ -33,10 +36,11 @@ typedef struct {
     int estimasi_hari;
 } DetailLayanan;
 
+extern pesanan latest_order;
+
 // Fungsi yang sudah ada
 void tampilkan_katalog(int paket);
 DetailLayanan get_detail_layanan(int paket, int sub_pilihan);
-extern pesanan latest_order;
 void tampilkan_struk_pembayaran(pesanan print);
 void order(antrian_laundry * neworder);
 

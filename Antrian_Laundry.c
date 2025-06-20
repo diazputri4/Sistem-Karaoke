@@ -194,7 +194,7 @@ void dequeue(antrian_laundry ** del) {
 
 // Tambahkan fungsi helper untuk menampilkan antrian berdasarkan kategori
 void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) {
-    printf("\n Antrian %s \n", kategori);
+    printf("\n\n Antrian %s \n", kategori);
     if (isEmpty(antrian)) {
         printf("Antrian kosong!\n");
         return;
@@ -202,7 +202,7 @@ void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) 
     
     antrian_laundry * current = antrian;
     int count = 1;
-    printf("\n=========================================================================");
+    printf("\n+===================================================================================+");
     while (current != NULL) {
         // Ensure strings are properly terminated
         char nama[31] = {0};  // +1 for null terminator
@@ -223,7 +223,7 @@ void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) 
                (time(NULL) >= current->waktu_selesai ? "MENUNGGU PENGAMBILAN" : "DALAM PROSES"));
         current = current->nextnode;
         count++;
-        printf("\n=========================================================================");
+    printf("+===================================================================================+");
     }
 }
 
@@ -568,9 +568,9 @@ void load_queue_from_file() {
 }
 
 void show_notification(const char* customer_name, const char* service_type, char* message, char* title) {
-        printf(message, "Pesanan dari %s (%s) telah selesai dan telah dihapus dari antrian.", 
+        sprintf(message, "Pesanan dari %s (%s) telah selesai dan telah dihapus dari antrian.", 
                 customer_name, service_type);
-        printf(title, "Pesanan Selesai");
+        sprintf(title, "Pesanan Selesai");
         MessageBox(NULL, message, title, MB_OK | MB_ICONINFORMATION);
     }
 
@@ -662,12 +662,11 @@ void auto_dequeue_completed() {
     }
 }
 
-
-
 void tampilkan_status_semua_pesanan() {
     const char* tipe_layanan[] = {"REGULER", "PREMIUM", "REPAIRMENT", "REPAINT"};
     antrian_laundry* antrian[] = {antrian_reguler, antrian_premium, antrian_repairment, antrian_repaint};
 
+    tampilkan_menu_cek_status();
     printf("=====================================\n");
     for (int i = 0; i < 4; i++) {
         printf("Tipe Layanan: %s\n", tipe_layanan[i]);
@@ -692,43 +691,6 @@ void tampilkan_status_semua_pesanan() {
         }
     }
     printf("=====================================\n");
-    getchar();
-}
-
-void edit_status_pengambilan() {
-    char id[9];
-    int found = 0;
-    printf("Masukkan ID pesanan yang ingin diubah statusnya menjadi 'Selesai' dan dikeluarkan dari antrian: ");
-    scanf("%8s", id);
-    getchar();
-
-    antrian_laundry* *antrians[] = {&antrian_reguler, &antrian_premium, &antrian_repairment, &antrian_repaint};
-    for (int i = 0; i < 4; i++) {
-        antrian_laundry **head = antrians[i];
-        antrian_laundry *curr = *head;
-        antrian_laundry *prev = NULL;
-        while (curr != NULL) {
-            if (strcmp(curr->id, id) == 0 && curr->sudah_selesai) {
-                // Hapus node dari linked list
-                if (prev == NULL) {
-                    *head = curr->nextnode;
-                } else {
-                    prev->nextnode = curr->nextnode;
-                }
-                free(curr);
-                printf("Status pesanan dengan ID %s berhasil diubah menjadi 'Selesai' dan dikeluarkan dari antrian.\n", id);
-                found = 1;
-                break;
-            }
-            prev = curr;
-            curr = curr->nextnode;
-        }
-        if (found) break;
-    }
-    if (!found) {
-        printf("Pesanan dengan ID %s tidak ditemukan atau belum berstatus 'Menunggu Pengambilan'.\n", id);
-    }
     printf("Tekan Enter untuk kembali ke menu utama...");
     getchar();
 }
-
