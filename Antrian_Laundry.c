@@ -223,7 +223,7 @@ void tampilkan_antrian_kategori(antrian_laundry *antrian, const char* kategori) 
                (time(NULL) >= current->waktu_selesai ? "MENUNGGU PENGAMBILAN" : "DALAM PROSES"));
         current = current->nextnode;
         count++;
-    printf("+===================================================================================+");
+    	printf("\n+===================================================================================+");
     }
 }
 
