@@ -287,7 +287,7 @@ void order(antrian_laundry * neworder) {
     printf("\n++================================= METODE PEMBAYARAN ===================================++\n");
     printf("||                                   1. Tunai                                            ||\n");
     printf("||                                   2. Transfer Bank                                    ||\n");
-    printf("||                                   3. E-Wallet                                        ||\n");
+    printf("||                                   3. E-Wallet                                         ||\n");
     printf("++=======================================================================================++\n\n");
     printf("Pilihan: ");
     scanf("%d", &out.metode);
