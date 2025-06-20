@@ -98,6 +98,56 @@ void buat_pesanan(antrian_laundry** q) {
     // Set waktu pesanan
     p.waktu_pesanan = t;
 
+    // Tampilkan ringkasan data pesanan untuk konfirmasi
+    printf("\nRingkasan Data Pesanan:\n");
+    printf("Nama Pelanggan      : %s\n", new_node->nama_pelanggan);
+    printf("Nomor Telepon       : %d\n", new_node->no_telp);
+    printf("Alamat              : %s\n", new_node->alamat);
+    printf("Tipe Layanan        : ");
+    switch(p.tipe_layanan) {
+        case REGULAR_WASH:
+            printf("REGULAR WASH\n");
+            break;
+        case PREMIUM_WASH:
+            printf("PREMIUM WASH\n");
+            break;
+        case REPAIRMENT:
+            printf("REPAIRMENT\n");
+            break;
+        case REPAINT:
+            printf("REPAINT\n");
+            break;
+        default:
+            printf("Tidak diketahui\n");
+    }
+    printf("Jumlah Pasang       : %d\n", p.jumlah_pasang);
+    printf("Total Harga         : Rp %.2f\n", p.total_harga);
+    printf("Metode Pembayaran   : ");
+    switch(p.metode_pembayaran) {
+        case 1:
+            printf("TUNAI\n");
+            break;
+        case 2:
+            printf("TRANSFER BANK\n");
+            break;
+        case 3:
+            printf("E-WALLET\n");
+            break;
+        default:
+            printf("Tidak diketahui\n");
+    }
+
+    char konfirmasi;
+    printf("\nApakah data sudah benar? (Y/N): ");
+    scanf(" %c", &konfirmasi);
+    if (konfirmasi != 'Y' && konfirmasi != 'y') {
+        printf("\nPesanan dibatalkan. Tekan Enter untuk kembali ke menu...");
+        getchar();
+        getchar();
+        free(new_node);
+        return;
+    }
+
     // Tambahkan ke antrian
     new_node->nextnode = *q;
     *q = new_node;
